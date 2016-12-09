@@ -3,8 +3,11 @@ package myPackage;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.jms.Destination;
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
+import javax.jms.TextMessage;
 
 import org.apache.activemq.broker.BrokerFactory;
 import org.apache.activemq.broker.BrokerService;
@@ -56,11 +59,24 @@ public class MyServer implements MessageListener {
 		
 	}
 	
-	
+
+	public void sendTextMessageToNode(String text, Destination msgDest){
+		this.serverConnection.sendTextMessageToDestination(text, msgDest);
+	}
 
 		//Server receives a query and sends reply to temporary topic set in JMSReplyTo
 		public void onMessage(Message message) {
-			System.out.println("Server:	Yeah someone pinged me.");
+			TextMessage textMsg=(TextMessage) message;
+			try {
+				System.out.println("Server:	Yeah someone texted me: "+textMsg.getText());
+				sendTextMessageToNode("Server confirmes message",textMsg.getJMSReplyTo());
+			    
+				
+				
+			} catch (JMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			 
 		}
 
@@ -68,7 +84,7 @@ public class MyServer implements MessageListener {
 		
 		
 
-		public MyJMS_Connection serverConnection;
+		public MyJMS_ConnectionSlashNode serverConnection;
 		private BrokerService broker;
 		
 		public MyServer() {
@@ -81,7 +97,7 @@ public class MyServer implements MessageListener {
 			
 			broker.start();
 			//System.out.println("JMS started!");
-			serverConnection=new MyJMS_Connection(brokerURL, "server");
+			serverConnection=new MyJMS_ConnectionSlashNode(brokerURL, "server", this);
 			
 			
 			

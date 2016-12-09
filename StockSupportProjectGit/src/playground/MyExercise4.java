@@ -7,7 +7,7 @@ import org.apache.activemq.broker.BrokerFactory;
 import org.apache.activemq.broker.BrokerService;
 
 import myPackage.MyClient;
-import myPackage.MyJMS_Connection;
+import myPackage.MyJMS_ConnectionSlashNode;
 import myPackage.MyServer;
 
 public class MyExercise4 {
@@ -24,9 +24,9 @@ public class MyExercise4 {
 		
 		broker.start();
 		System.out.println("JMS started!");
-		MyJMS_Connection serverConnection=new MyJMS_Connection(brokerURL, "server");
+		MyJMS_ConnectionSlashNode serverConnection=new MyJMS_ConnectionSlashNode(brokerURL, "server", server);
 		
-		MyClient client1=new MyClient();
+		//MyClient client1=new MyClient();
 		
 		
 		

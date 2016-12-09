@@ -35,7 +35,7 @@ public class MyExercise3 implements MessageListener {
 
 	public static void main(String[] args) throws URISyntaxException, Exception {
 		MyExercise3 jmsTopicExample = new MyExercise3();
-		MessageListener client=new MyClient();
+		MessageListener client=new MyClient("client");
 		
 		MyServer server=new MyServer();
 		
@@ -49,7 +49,7 @@ public class MyExercise3 implements MessageListener {
 	
 	public static void old_main(String[] args) throws URISyntaxException, Exception {
 		MyExercise3 jmsTopicExample = new MyExercise3();
-		MessageListener server=jmsTopicExample,client=new MyClient();
+		MessageListener server=jmsTopicExample,client=new MyClient("client");
 		jmsTopicExample.myMessageAndWaitUsingTopics("Client: Important Query",server,client);
 	}
 	
